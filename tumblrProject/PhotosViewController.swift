@@ -38,7 +38,16 @@ class PhotosViewController: UIViewController,UITableViewDelegate,UITableViewData
         session.configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
         let task = session.dataTask(with: url) { (data, response, error) in
             if let error = error {
-                print(error.localizedDescription)
+                let alertController = UIAlertController(title: "Cannot find Tumblr Photos", message: "The Internet connection appears to be offline", preferredStyle: .alert)
+                let tryAction = UIAlertAction(title: "Try again", style: .default) { (action) in
+                    // handle cancel response here. Doing nothing will dismiss the view.
+                }
+                // add the cancel action to the alertController
+                alertController.addAction(tryAction)
+                self.present(alertController, animated: true) {
+                    // optional code for what happens after the alert controller has finished presenting
+                }
+                self.refreshControl.endRefreshing()
             } else if let data = data,
                 let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
                 //print(dataDictionary)
