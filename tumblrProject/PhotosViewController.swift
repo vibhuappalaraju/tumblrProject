@@ -15,6 +15,7 @@ class PhotosViewController: UIViewController,UITableViewDelegate,UITableViewData
     @IBOutlet weak var tableView: UITableView!
     
     var posts: [[String: Any]] = []
+    var refreshControl: UIRefreshControl!
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,6 +23,15 @@ class PhotosViewController: UIViewController,UITableViewDelegate,UITableViewData
         tableView.delegate = self
         tableView.dataSource = self
         
+        refreshControl = UIRefreshControl()
+        
+        refreshControl.addTarget(self, action: #selector(PhotosViewController.didPullToRefresh(_:)), for: .valueChanged)
+        tableView.insertSubview(refreshControl, at: 0)
+        fetchTumblrFeed()
+  
+    }
+    
+    func fetchTumblrFeed (){
         // Network request snippet
         let url = URL(string: "https://api.tumblr.com/v2/blog/humansofnewyork.tumblr.com/posts/photo?api_key=Q6vHoaVm5L1u2ZAW1fqv3Jw48gFzYVg9P0vH0VHl3GVy6quoGV")!
         let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
@@ -36,13 +46,18 @@ class PhotosViewController: UIViewController,UITableViewDelegate,UITableViewData
                 let responseDictionary = dataDictionary["response"] as! [String: Any]
                 // Store the returned array of dictionaries in our posts property
                 self.posts = responseDictionary["posts"] as! [[String: Any]]
-                  self.tableView.reloadData()
+                self.tableView.reloadData()
                 // TODO: Get the posts and store in posts property
-                
                 // TODO: Reload the table view
+                self.refreshControl.endRefreshing()
             }
         }
         task.resume()
+    }
+    
+    
+    @objc func didPullToRefresh(_ refreshControl:UIRefreshControl) {
+        fetchTumblrFeed()
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
