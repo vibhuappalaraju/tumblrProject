@@ -10,7 +10,9 @@ import UIKit
 import AlamofireImage
 
 class PhotosViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
+
     
+   
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -28,7 +30,7 @@ class PhotosViewController: UIViewController,UITableViewDelegate,UITableViewData
         refreshControl.addTarget(self, action: #selector(PhotosViewController.didPullToRefresh(_:)), for: .valueChanged)
         tableView.insertSubview(refreshControl, at: 0)
         fetchTumblrFeed()
-  
+     
     }
     
     func fetchTumblrFeed (){
@@ -64,7 +66,16 @@ class PhotosViewController: UIViewController,UITableViewDelegate,UITableViewData
         task.resume()
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let vc = segue.destination as! PhotoDetailsViewController
+        let cell = sender as! UITableViewCell
+        let indexPath = tableView.indexPath(for: cell)!
+        
+        let post = posts[indexPath.row]
+        vc.post = post
+    }
     
+  
     @objc func didPullToRefresh(_ refreshControl:UIRefreshControl) {
         fetchTumblrFeed()
     }
@@ -89,13 +100,17 @@ class PhotosViewController: UIViewController,UITableViewDelegate,UITableViewData
             // 4.
             let url = URL(string: urlString)
              cell.tumblrImage.af_setImage(withURL: url!)
-          
+            
         }
-       
-        
+
         return cell
     }
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 300
     }
