@@ -1,8 +1,8 @@
-# Lab 1 - *tumblrProject*
+# Lab 1 - tumblrProject
 
-**tumblrProject** is a photo browsing app using the [The Tumblr API](https://www.tumblr.com/docs/en/api/v2#posts).
+tumblrProject is a photo browsing app using the [The Tumblr API](https://www.tumblr.com/docs/en/api/v2#posts).
 
-Time spent: **4** hours spent in total
+Time spent: 4 hours spent in total
 
 ## User Stories
 
@@ -88,7 +88,7 @@ Please list two areas of the assignment you'd like to **discuss further with you
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+![tumblrprojectpart2](https://user-images.githubusercontent.com/19617642/45660339-d5999e80-babd-11e8-833d-c2d3b2aa5c5f.gif)
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
